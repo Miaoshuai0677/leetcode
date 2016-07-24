@@ -1,2 +1,41 @@
-sdd
-df 
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+       List<List<Integer>> resultList = new ArrayList<List<Integer>>();//resultlist是数组链表
+        if (root == null) {
+            return resultList;
+        }
+
+        List<Integer> levelStorage = new LinkedList<Integer>();//levelStorage是resultlist的代替者
+        LinkedList<TreeNode> queue = new LinkedList<TreeNode>();//链表实现的队列
+        queue.offer(root);//根节点进队列
+        queue.offer(null);为啥还要进空节点呢？
+        while (queue.size() > 1) {
+            TreeNode top = queue.poll();//出队列
+            if (top == null) {
+                resultList.add(levelStorage);
+                queue.offer(null);
+                levelStorage = new LinkedList<Integer>();
+            } else {
+                levelStorage.add(top.val);
+                if (top.left != null) {
+                    queue.offer(top.left);
+                }
+                if (top.right != null) {
+                    queue.offer(top.right);
+                }
+            }
+        }
+        resultList.add(levelStorage);
+
+        return resultList;
+    }
+}
